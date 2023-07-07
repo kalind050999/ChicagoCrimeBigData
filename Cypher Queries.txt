@@ -1,0 +1,157 @@
+Nodes:-
+
+// Create PrimaryType node
+//:auto USING PERIODIC COMMIT 500
+LOAD CSV WITH HEADERS FROM 'file:///Chunk_1.csv' AS row
+MERGE (primaryType:`Primary Type` {typeName: row.`Primary Type`})
+ON CREATE SET
+primaryType.typeName = row.`Primary Type`;
+
+// Create Year node
+//:auto USING PERIODIC COMMIT 500
+LOAD CSV WITH HEADERS FROM 'file:///Chunk_1.csv' AS row
+MERGE (year:Year {yearName: row.Year})
+ON CREATE SET
+year.yearName = row.Year;
+
+// Create LocationDescription node
+//:auto USING PERIODIC COMMIT 500
+LOAD CSV WITH HEADERS FROM 'file:///Chunk_1.csv' AS row
+MERGE (locDescription:`Location Description` {descName: row.`Location Description`})
+ON CREATE SET
+locDescription.descName = row.`Location Description`;
+
+// Create Arrest node
+//:auto USING PERIODIC COMMIT 500
+LOAD CSV WITH HEADERS FROM 'file:///Chunk_1.csv' AS row
+MERGE (arrest:Arrest {arrestName: row.Arrest})
+ON CREATE SET
+arrest.arrestName = row.Arrest;
+
+// Create Domestic node
+//:auto USING PERIODIC COMMIT 500
+LOAD CSV WITH HEADERS FROM 'file:///Chunk_1.csv' AS row
+MERGE (domestic:Domestic {domesticName: row.Domestic})
+ON CREATE SET
+domestic.domesticName = row.Domestic;
+
+// Create CommunityArea node
+//:auto USING PERIODIC COMMIT 500
+LOAD CSV WITH HEADERS FROM 'file:///Chunk_1.csv' AS row
+MERGE (communityArea:`Community Area` {areaName: row.`Community Area`})
+ON CREATE SET
+communityArea.areaName = row.`Community Area`;
+
+// Create Beat node
+//:auto USING PERIODIC COMMIT 500
+LOAD CSV WITH HEADERS FROM 'file:///Chunk_1.csv' AS row
+MERGE (beat:Beat {beatName: row.Beat})
+ON CREATE SET
+beat.beatName = row.Beat;
+
+// Create IUCR node
+//:auto USING PERIODIC COMMIT 500
+LOAD CSV WITH HEADERS FROM 'file:///Chunk_1.csv' AS row
+MERGE (iucr:IUCR {code: row.IUCR})
+ON CREATE SET
+iucr.code = row.IUCR;
+
+// Create FBI_Code node
+//:auto USING PERIODIC COMMIT 500
+LOAD CSV WITH HEADERS FROM 'file:///Chunk_1.csv' AS row
+MERGE (fbiCode:`FBI Code`{codename:row.`FBI Code`})
+ON CREATE SET
+fbiCode.codename=row.`FBI Code`;
+
+//Create Block node
+//:auto USING PERIODIC COMMIT 500
+LOAD CSV WITH HEADERS FROM 'file:///Chunk_1.csv' AS row
+MERGE (block: Block {blockName: row.Block})
+ON CREATE SET
+block.blockName = row.Block;
+
+//CREATE CONSTRAINT FOR (uniq:UniqueID) REQUIRE uniq.uid IS UNIQUE ;
+
+//Create Location Coordinates node
+//:auto USING PERIODIC COMMIT 500
+LOAD CSV WITH HEADERS FROM 'file:///output1.csv' AS row
+MERGE (uniq:UniqueID {uid: row.UniqueID})
+ON CREATE SET
+uniq.uid = row.UniqueID,
+uniq.coordinates=row.Location;
+
+
+//Create Location Coordinates node
+//:auto USING PERIODIC COMMIT 500
+LOAD CSV WITH HEADERS FROM 'file:///Chunk_1.csv' AS row
+MERGE (location:Location {lat: row.Location})
+ON CREATE SET
+location.lat = row.Location
+
+
+
+
+
+
+Relationships
+
+//Relationship Between Primary Type and Year
+LOAD CSV WITH HEADERS FROM 'file:///Chunk_1.csv' AS row
+MATCH (primaryType: `Primary Type` {typeName:row.`Primary Type`})
+MATCH (year:Year {yearName: row.Year})
+MERGE (primaryType)-[a:OCCURED_IN]->(year)
+
+
+//Relationship Between Primary Type and Location Description
+LOAD CSV WITH HEADERS FROM 'file:///Chunk_1.csv' AS row
+MATCH (primaryType: `Primary Type` {typeName:row.`Primary Type`})
+MATCH (locDescription:`Location Description` {descName: row.`Location Description`})
+MERGE (primaryType)-[b:OCCURRED_AT_LOCATION]->(locDescription)
+
+//Relationship between Primary Type and Arrest
+LOAD CSV WITH HEADERS FROM 'file:///Chunk_1.csv' AS row
+MATCH (primaryType: `Primary Type` {typeName:row.`Primary Type`})
+MATCH (arrest:Arrest {arrestName: row.Arrest})
+MERGE (primaryType)-[c:ARRESTED]->(arrest)
+
+//Relationship between Primary Type and Domestic
+LOAD CSV WITH HEADERS FROM 'file:///Chunk_1.csv' AS row
+MATCH (primaryType: `Primary Type` {typeName:row.`Primary Type`})
+MATCH (domestic:Domestic {domesticName: row.Domestic})
+MERGE (primaryType)-[d:DOMESTIC_INCIDENT]->(domestic)
+
+//Relationship between Primary Type and Community Area
+LOAD CSV WITH HEADERS FROM 'file:///Chunk_1.csv' AS row
+MATCH (primaryType: `Primary Type` {typeName:row.`Primary Type`})
+MATCH (communityArea:`Community Area` {areaName: row.`Community Area`})
+MERGE (primaryType)-[e:OCCURED_IN_AREA]->(communityArea)
+
+//Relationship between Primary Type and IUCR
+LOAD CSV WITH HEADERS FROM 'file:///Chunk_1.csv' AS row
+MATCH (primaryType: `Primary Type` {typeName:row.`Primary Type`})
+MATCH (iucr:IUCR {code: row.IUCR})
+MERGE (primaryType)-[f:CLASSIFIED_BY_IUCR]->(iucr)
+
+//Relationship between Primary Type and FBI Code
+LOAD CSV WITH HEADERS FROM 'file:///Chunk_1.csv' AS row
+MATCH (primaryType: `Primary Type` {typeName:row.`Primary Type`})
+MATCH (fbiCode:`FBI Code`{codename:row.`FBI Code`})
+MERGE (primaryType)-[g:CLASSIFIFED_BY_FBI_CODE]->(fbiCode)
+
+//Relationship between Primary Type and Block
+LOAD CSV WITH HEADERS FROM 'file:///Chunk_1.csv' AS row
+MATCH (primaryType: `Primary Type` {typeName:row.`Primary Type`})
+MATCH (block: Block {blockName: row.Block})
+MERGE (primaryType)-[h:OCCURED_ON_BLOCK]->(block)
+
+//Relationship between Primary Type and Location Coordinate
+LOAD CSV WITH HEADERS FROM 'file:///Chunk_1.csv' AS row
+MATCH (primaryType: `Primary Type` {typeName:row.`Primary Type`})
+MATCH (location:Location {lat: row.Location})
+MERGE (primaryType)-[i:OCCURED_AT_LOCATION]->(location)
+
+//Relationship between Year and Arrest
+LOAD CSV WITH HEADERS FROM 'file:///Chunk_1.csv' AS row
+MATCH (year:Year {yearName: row.Year})
+MATCH (arrest:Arrest {arrestName: row.Arrest})
+MERGE (year)-[j:ARREST_MADE]->(arrest)

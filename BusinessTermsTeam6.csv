@@ -1,0 +1,25 @@
+Column Names,Column Description,DataType
+ID,This is a unique identifier of the accident record.,STRING
+Case Number,"The Chicago Police Department RD Number (Records Division
+Number), which is unique to the incident.",STRING
+Date,Date when the incident occurred. this is sometimes a best estimate.,DATETYPE
+Block,"The partially redacted address where the incident occurred, placing it on the same
+block as the actual address.",STRING
+IUCR,The Illinois Uniform Crime Reporting code. This is directly linked to the Primary Type and Description.,STRING
+Primary Type,The primary description of the IUCR code.,STRING
+Description,"The secondary description of the IUCR code, a subcategory of the primary description.",STRING
+Location Description,Description of the location where the incident occurred.,STRING
+Arrest,Indicates whether an arrest was made.,BOOLEAN
+Domestic,Indicates whether the incident was domestic-related as defined by the Illinois Domestic Violence Act.,BOOLEAN
+Beat,Indicates the beat (small region) where the incident occurred.,STRING
+District,Indicates the police district where the incident occurred,STRING
+Ward,The ward (City Council district) where the incident occurred.,STRING
+Community Area,Indicates the community area where the incident occurred.,STRING
+FBI Code,Indicates the crime classification as outlined in the FBI's National IncidentBased Reporting System (NIBRS),STRING
+X Coordinate,The x coordinate of the location where the incident occurred in State Map,FLOAT
+Y Coordinate,The y coordinate of the location where the incident occurred in State Map,FLOAT
+Year,Year the incident occurred.,INT
+Updated On,Date and time the record was last updated,DATETYPE
+Latitude,The latitude of the location where the incident occurred.,FLOAT
+Longitude,The longitude of the location where the incident occurred.,FLOAT
+Location,The location where the incident occurred.,FLOAT
